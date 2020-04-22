@@ -1,0 +1,10 @@
+Docstrings
+
+---------------------------
+
+The reason why 
+ z = DiffCheck{ Complex{Float64}, (:z, ) }(1.0, NamedTuple{(:z, ), NTuple{1, Complex{Float64}}}((1.0, )))
+ is not working is that 1.0 is not promoted automatically to Complex{Float64}
+  The following works
+ z = DiffCheck{ Complex{Float64}, (:z, ) }(1.0+0*im, NamedTuple{(:z, ), NTuple{1, Complex{Float64}}}((1.0+0*im, )))
+ MethodError: no method matching DiffCheck{Complex{Float64},(:z,),N} where N(::Float64, ::NamedTuple{(:z,),Tuple{Complex{Float64}}})
