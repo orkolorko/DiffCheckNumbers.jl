@@ -32,7 +32,7 @@ which returns
 where we have both the partial derivatives and the dependence.
 We can see that the first variable depends on x,y and the value of the partial derivatives, etc...
 
-What is interesting in my approach is that we have now a compiled version of f which keeps track of the dependence of the variables, so, any new computation of the Jacobian is faster.
+What is interesting in DiffCheckNumbers is that we have now a compiled version of f which keeps track of the dependence of the variables, so, any new computation of the Jacobian is faster.
 
 ```
 x = DiffCheck(2.0, :x)
@@ -47,4 +47,4 @@ z = DiffCheck(1.0, :z)
             DiffCheck{Float64,(:z,),1}(1.0, (z = 1.0,))
 ```
 Please note that the compiled f only computes the derivative when there is explicit dependence.
-While on small function ForwardDiff.jacobian is faster, for "sparse" functions this approach may be faster.
+While on small function ForwardDiff.jacobian is faster, for "sparse" functions this approach may be faster, once the compilation time is take into account (please remark that due to the strong use of metaprogramming, this can be expensive).
