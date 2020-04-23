@@ -18,16 +18,33 @@ we can now define
 x = DiffCheck(1.0, :x)
 y = DiffCheck(1.0, :y)
 z = DiffCheck(1.0, :z)
-f(x, y, z) 
+@time f(x, y, z) 
 ```
 which returns
 ```
+0.343909 seconds (406.48 k allocations: 23.015 MiB, 2.32% gc time)
 3-element Array{DiffCheck{Float64,S,N} where N where S,1}:
  DiffCheck{Float64,(:y, :x),2}(2.0, (y = 1.0, x = 1.0))
  DiffCheck{Float64,(:z, :x),2}(3.0, (z = 2.0, x = 1.0))
             DiffCheck{Float64,(:z,),1}(1.0, (z = 1.0,))
+
 ```
 where we have both the partial derivatives and the dependence.
 We can see that the first variable depends on x,y and the value of the partial derivatives, etc...
 
 What is interesting in my approach is that we have now a compiled version of f which keeps track of the dependence of the variables, so, any new computation of the Jacobian is faster.
+
+```
+x = DiffCheck(2.0, :x)
+y = DiffCheck(0.0, :y)
+z = DiffCheck(1.0, :z)
+
+@time f(x,y,z)
+  0.000013 seconds (13 allocations: 624 bytes)
+3-element Array{DiffCheck{Float64,S,N} where N where S,1}:
+ DiffCheck{Float64,(:y, :x),2}(1.0, (y = 2.0, x = 0.0))
+ DiffCheck{Float64,(:z, :x),2}(4.0, (z = 2.0, x = 1.0))
+            DiffCheck{Float64,(:z,),1}(1.0, (z = 1.0,))
+```
+Please note that the compiled f only computes the derivative when there is explicit dependence.
+While on small function ForwardDiff.jacobian is faster, for "sparse" functions this approach may be faster.
