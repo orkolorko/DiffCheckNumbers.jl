@@ -17,7 +17,14 @@ z = DiffCheck{Float64, (:z, )}(1.0, NamedTuple{(:z, ), NTuple{1, Float64}}((1.0,
 @test DiffCheck(1.0, [:y, :x]) === xy
 # please be careful with the order of the symbols when comparing!!!
 complex_z = DiffCheck(Complex{Float64}(1.0), :z)
+complex_w = DiffCheck{Complex{Float64}}(0.0, :w)
+complex_zw = DiffCheck(1.0+im*0, [:z, :w])
+complex_zw2 = DiffCheck{Complex{Float64}}(1.0, [:z, :w])
+### 
 
-@test DiffCheck{Complex{Float64}}(z) === complex_z
+@test complex_z === DiffCheck{Complex{Float64}, (:z, )}(1.0, NamedTuple{(:z, ), NTuple{1, Complex{Float64}}}((1.0, )))
+@test complex_w === DiffCheck{Complex{Float64}, (:w, )}(0.0, NamedTuple{(:w, ), NTuple{1, Complex{Float64}}}((1.0, )))
+@test complex_zw === DiffCheck{Complex{Float64}, (:w, :z)}(1.0, StaticTuple{Complex{Float64},(:w, :z),2}((1.0, 1.0)))
+@test complex_zw2 === DiffCheck{Complex{Float64}, (:w, :z)}(1.0, StaticTuple{Complex{Float64},(:w, :z),2}((1.0, 1.0)))
 
 end

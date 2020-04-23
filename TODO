@@ -1,5 +1,15 @@
 Docstrings
 
+
+
+--------------------------
+Test Complex
+
+--------------------------
+Is it worth to cast away the derivatives that became 0?
+Expensive and only known at runtime... Not worth, this is not type stable
+
+
 ---------------------------
 
 The reason why 

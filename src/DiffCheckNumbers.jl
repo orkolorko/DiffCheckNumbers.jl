@@ -11,7 +11,7 @@ include("Helper.jl")
 include("Arithmetic.jl")
 
 
-export DiffCheck, value, derivatives
+export DiffCheck, value, derivatives, StaticTuple
 
 
 
