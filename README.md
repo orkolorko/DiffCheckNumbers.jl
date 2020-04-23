@@ -48,3 +48,17 @@ z = DiffCheck(1.0, :z)
 ```
 Please note that the compiled f only computes the derivative when there is explicit dependence.
 While on small function ForwardDiff.jacobian is faster, for "sparse" functions this approach may be faster, once the compilation time is take into account (please remark that due to the strong use of metaprogramming, this can be expensive).
+
+For a trivial example
+```
+f(v) = v
+w = ones(2000)
+@time ForwardDiff.jacobian(f, w)
+0.142886 seconds (9 allocations: 30.717 MiB, 5.65% gc time)
+
+v = [DiffCheck(1.0, Symbol("x",i)) for i in 1:2000]
+@time f(v)
+0.000003 seconds (4 allocations: 160 bytes)
+```
+
+Please note that the allocation of v is expensive, though.
