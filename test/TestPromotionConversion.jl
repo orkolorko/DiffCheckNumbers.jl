@@ -10,6 +10,9 @@ xy = DiffCheck{Float64, (:y, :x)}(1.0, NamedTuple{(:y, :x), NTuple{2, Float64}}(
 z = DiffCheck(Complex{Float64}(1.0), :z)
 zw = DiffCheck(1.0+im*0, [:z, :w])
 
+#########
+#Conversions
+#########
 
 # Testing Base.convert(::Type{DiffCheck{T, S, N}}, z::DiffCheck{T, S, N})
 @test convert(DiffCheck{Float64, (), 0}, constant) === constant
@@ -55,5 +58,18 @@ zw = DiffCheck(1.0+im*0, [:z, :w])
 	  catch e 
 		isa(e, InexactError) 
 	  end	  
+
+########
+#Promotions
+########
+
+@test promote_type(DiffCheck{Float64, (:y, :x), 2}, DiffCheck{Complex{Float64}, (:y, :x), 2}) === DiffCheck{Complex{Float64}, (:y, :x), 2}
+@test promote_type(DiffCheck{Float64, (:y, :x), 2}, Complex{Float64}) === DiffCheck{Complex{Float64}, (:y, :x), 2}
+@test promote_type(DiffCheck{Float64, (:y, :x), 2}, Float64) === DiffCheck{Float64, (:y, :x), 2}
+@test promote_type(DiffCheck{Float64, (), 0}, Float64) === DiffCheck{Float64, (), 0}
+@test widen(DiffCheck{Float64, (:y, :x), 2}) === DiffCheck{BigFloat, (:y, :x), 2}
+
+
+
 
 end
