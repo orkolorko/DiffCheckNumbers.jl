@@ -28,4 +28,6 @@ which returns
             DiffCheck{Float64,(:z,),1}(1.0, (z = 1.0,))
 ```
 where we have both the partial derivatives and the dependence.
+We can see that the first variable depends on x,y and the value of the partial derivatives, etc...
+
 What is interesting in my approach is that we have now a compiled version of f which keeps track of the dependence of the variables, so, any new computation of the Jacobian is faster.
