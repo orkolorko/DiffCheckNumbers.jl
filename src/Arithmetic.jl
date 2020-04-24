@@ -16,9 +16,12 @@ Base.:+(y::U, x::DiffCheck{T, S, N}) where {T<:ReComp, S, N, U<:ReComp} = Base.:
            str*="y.der[:$z],"
         end
     end
+    T = promote_type(T₁,T₂)
+    DATA = StaticTuple{T, Z, N}
+    DC = DiffCheck{T, Z}
     str*= ")"
     expr = Meta.parse(str)
-    return :(DiffCheck{promote_type($T₁,$T₂), $Z}(value(x) + value(y), StaticTuple{promote_type($T₁,$T₂),$Z, $N}($expr)))
+    return :($DC(value(x) + value(y),$DATA($expr)))
 end
 
 Base.:-(x::DiffCheck{T, S, N}, y::U) where {T<:ReComp, S, N, U<:ReComp} = DiffCheck{T, S}(value(x) - T(y), derivatives(x))
