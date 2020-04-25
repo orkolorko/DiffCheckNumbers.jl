@@ -5,7 +5,7 @@ This library implements the ideas in
 
 [Slaven Peles and Stefan Klus, **Sparse Automatic Differentiation for Large-Scale Computations Using Abstract Elementary Algebra**](https://arxiv.org/abs/1505.00838)
 
-by using some of Julia metaprogramming functionalities to force the computation of the dependency at compile time. This is an idea of Maurizio Monge, that had implemented a code generator for AD in C++ for one of his works and spoke to me about an alternative approach with types that is easily expressed in Julia.
+by using some of Julia metaprogramming functionalities to force the computation of the dependency at compile time. The idea of using types is of Maurizio Monge, that had implemented a code generator for AD in C++ for one of his works and suggested this alternative approach.
 
 ## Usage
 The use is quite straightforward, suppose f is a function 
